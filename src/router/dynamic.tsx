@@ -22,10 +22,10 @@ export async function generateRoutes(): Promise<RouteObject[]> {
   const allRoleMenus = roleMenusR.payload as RoleMenu[]
   const menuIdSet = new Set<number>()
   const buttonIdSet = new Set<number>()
-  userRoles.forEach((role) => {
+  userRoles?.forEach((role) => {
     const roleMenu = allRoleMenus.find((rm) => rm.roleId === role.id)
-    roleMenu?.menuIds.forEach((id: number) => menuIdSet.add(id))
-    roleMenu?.buttonIds.forEach((id: number) => buttonIdSet.add(id))
+    roleMenu?.menuIds?.forEach((id: number) => menuIdSet.add(id))
+    roleMenu?.buttonIds?.forEach((id: number) => buttonIdSet.add(id))
   })
 
   const menusR = await store.dispatch(getMenuList())

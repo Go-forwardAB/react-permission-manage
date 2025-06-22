@@ -82,7 +82,6 @@ const Login: React.FC = () => {
     } catch (err) {
       console.log(err)
       setLoading(false)
-      message.error('登录异常')
     }
   }
 
