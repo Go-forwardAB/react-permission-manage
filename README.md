@@ -1,54 +1,43 @@
-# React + TypeScript + Vite
+# 🔐 React 权限管理系统
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+基于 **React 18 + Vite + Ant Design 5** 构建的中后台权限管理系统，具备完整的动态权限路由、菜单管理、按钮权限、角色权限分配、登录鉴权、token 刷新机制等功能。
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧰 技术栈
 
-## Expanding the ESLint configuration
+| 技术                             | 说明               |
+| -------------------------------- | ------------------ |
+| React 18                         | 主流前端框架       |
+| Vite 6                           | 极速构建工具       |
+| TypeScript                       | 强类型开发         |
+| Ant Design 5                     | 企业级 UI 框架     |
+| Redux Toolkit                    | 状态管理工具       |
+| React Router v6                  | 路由系统           |
+| axios                            | 网络请求库         |
+| js-cookie                        | Cookie 管理        |
+| jwt-decode                       | 解析 JWT Token     |
+| dayjs                            | 轻量日期处理库     |
+| redux-persist                    | 状态持久化         |
+| husky + lint-staged + commitlint | Git 提交校验工具链 |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 安装依赖
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+````bash
+pnpm install
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+🚀 本地开发
+```bash
+pnpm dev
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+
+🔧 生产构建
+```bash
+pnpm build
+
+
+🔍 本地预览
+```bash
+pnpm lint
+````
