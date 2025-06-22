@@ -39,5 +39,10 @@ pnpm build
 
 🔍 本地预览
 ```bash
+pnpm preview
+
+
+🧹 代码检查
+```bash
 pnpm lint
 ````
