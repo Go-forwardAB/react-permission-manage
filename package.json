@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build --mode production",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "pnpm build && cd dist && git init && git remote add origin https://github.com/Go-forwardAB/react-permission-manage.git &&  git checkout -b gh-pages && git add . && git commit -m 'deploy' && git push -f origin gh-pages && cd .."
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
