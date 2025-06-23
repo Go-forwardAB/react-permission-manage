@@ -3,10 +3,11 @@ import { Button } from 'antd'
 import { PoweroffOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/store'
-import { logout } from '@/utils/logout'
+import { useLogout } from '@/hooks/useLogout'
 import './styles/Header.scss'
 
 const Header: React.FC = () => {
+  const logout = useLogout()
   const username = useSelector((state: RootState) => state.userInfo.username)
 
   return (

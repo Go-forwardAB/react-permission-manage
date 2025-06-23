@@ -1,6 +1,6 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios'
 import { getTokenA, getTokenR, setTokenA } from './token'
-import { logout } from './logout'
+import { logoutRedirect } from '@/utils/logout'
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
@@ -63,7 +63,7 @@ instance.interceptors.response.use(
         return instance(originalRequest)
       } catch (err) {
         refreshQueue = []
-        logout()
+        logoutRedirect()
         return Promise.reject(err)
       } finally {
         isRefreshing = false
