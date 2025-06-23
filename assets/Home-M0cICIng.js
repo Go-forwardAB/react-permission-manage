@@ -1,1 +1,0 @@
-import{ac as e}from"./index-CsTQqO15.js";const t=()=>e.jsx("div",{children:"我是首页"}),r=Object.freeze(Object.defineProperty({__proto__:null,default:t},Symbol.toStringTag,{value:"Module"}));export{r as _};
