@@ -6,7 +6,7 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 const instance = axios.create({
   baseURL: baseUrl,
-  timeout: 5000,
+  timeout: 15000,
 })
 
 let isRefreshing = false

@@ -4,7 +4,6 @@ import { userSave } from '@/api/users'
 import { rolesList } from '@/api/roles'
 import type { User } from '@/types/user'
 import type { Role } from '@/types/role'
-// import { logout } from '@/composables/logout'
 
 const { Option } = Select
 
