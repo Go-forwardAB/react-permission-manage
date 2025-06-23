@@ -26,6 +26,7 @@ const MenuForm = forwardRef<MenuFormRef, Props>(({ menuTree, onSubmitSuccess }, 
     open(data?: MenuItem) {
       setVisible(true)
       if (data) {
+        console.log(data)
         setIsEdit(true)
         form.setFieldsValue(data)
         setCurrentType(data.type)
@@ -134,7 +135,7 @@ const MenuForm = forwardRef<MenuFormRef, Props>(({ menuTree, onSubmitSuccess }, 
                   { label: '设置', value: 'Setting' },
                   { label: '菜单', value: 'Appstore' },
                   { label: '首页', value: 'Home' },
-                  { label: '记事本', value: 'FileText' },
+                  { label: '笔记本', value: 'FileText' },
                 ].map((item) => (
                   <Select.Option key={item.value} value={item.value}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

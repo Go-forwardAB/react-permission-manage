@@ -4,6 +4,7 @@ import { roleMenu, roleMenuUpdate } from '@/api/roles'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/store'
 import { attachButtonsToMenus, filterVisibleMenus } from '../utils'
+import { generateRoutes } from '@/router/dynamic'
 
 interface PermissionProps {
   visible: boolean
@@ -44,6 +45,7 @@ const Permission: React.FC<PermissionProps> = ({ visible, onClose, roleId }) => 
 
       if (res.code === 200) {
         message.success(res.message)
+        generateRoutes()
         onClose()
       } else {
         message.error(res.error)
@@ -68,7 +70,6 @@ const Permission: React.FC<PermissionProps> = ({ visible, onClose, roleId }) => 
         <Tree
           ref={treeRef}
           checkable
-          checkStrictly={true}
           treeData={menuTree}
           fieldNames={{ title: 'title', key: 'id', children: 'children' }}
           checkedKeys={checkedMenuIds}

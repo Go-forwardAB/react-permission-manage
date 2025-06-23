@@ -14,7 +14,7 @@ export function addMenu(data: MenuItem): Promise<Response> {
   return service.post(`/menuAdd`, data)
 }
 
-export function deleteMenu(id: number): Promise<Response> {
+export function deleteMenu(id: number): Promise<Response & { deletedPaths: string[] }> {
   return service.get(`/menuDelete/${id}`)
 }
 

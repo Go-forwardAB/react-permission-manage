@@ -69,7 +69,7 @@ const Login: React.FC = () => {
         } else {
           localStorage.removeItem('rememberedUser')
         }
-        dispatch(setUserInfo(values))
+        dispatch(setUserInfo({ ...values, ...res.data.user }))
         setTokenA(res.data.accessToken)
         setTokenR(res.data.refreshToken)
         message.success(res.message)

@@ -16,6 +16,6 @@ export function logoutRedirect(baseRedirect = true) {
   resetRouter()
 
   if (baseRedirect) {
-    window.location.href = `${location.origin}/react-permission-manage/#/login`
+    window.location.href = '/login'
   }
 }

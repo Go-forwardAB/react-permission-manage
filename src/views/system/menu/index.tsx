@@ -8,7 +8,9 @@ import MenuForm, { type MenuFormRef } from './components/MenuForm'
 import type { RootState } from '@/store'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { getMenuList } from '@/store/menuSlice'
+import { removeTab } from '@/store/tabSlice'
 import DynamicIcon from '@/components/DynamicIcon'
+import { generateRoutes } from '@/router/dynamic'
 
 interface TypeConfig {
   label: string
@@ -111,7 +113,7 @@ const MenuManage: React.FC = () => {
           <Button size="small" type="primary" onClick={() => handleEdit(row)}>
             编辑
           </Button>
-          <Button size="small" danger onClick={() => handleDelete(row.id)}>
+          <Button size="small" danger onClick={() => handleDelete(row)}>
             删除
           </Button>
         </Space>
@@ -123,13 +125,19 @@ const MenuManage: React.FC = () => {
     formRef.current?.open(row)
   }
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (row: MenuItem) => {
     Modal.confirm({
       title: '确认删除该菜单？',
       onOk: async () => {
-        const res = await deleteMenu(id)
+        const res = await deleteMenu(row.id)
         message.success(res.message)
         dispatch(getMenuList())
+        if (row.parentId) {
+          res.deletedPaths.forEach((item) => {
+            dispatch(removeTab(item))
+          })
+        }
+        generateRoutes()
       },
     })
   }
@@ -139,6 +147,7 @@ const MenuManage: React.FC = () => {
     if (res.code === 200) {
       message.success(res.message)
       dispatch(getMenuList())
+      generateRoutes()
     } else {
       message.error('请求失败')
     }
@@ -151,9 +160,13 @@ const MenuManage: React.FC = () => {
         message.success(res.message)
         formRef.current?.close()
         dispatch(getMenuList())
+        if (data.id) {
+          generateRoutes()
+        }
       }
-    } catch (err) {
-      console.log(err)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      message.error(err.response.data.error)
     }
   }
 

@@ -1,5 +1,6 @@
 import { Cascader } from 'antd'
 import type { MenuItem } from '@/types/menu'
+import { useEffect, useState, useCallback } from 'react'
 
 const MenuCascader = ({
   currentId,
@@ -10,36 +11,43 @@ const MenuCascader = ({
   onChange: (parentId: number) => void
   treeData: MenuItem[]
 }) => {
-  const findFullPath = (
-    targetId: number | undefined,
-    nodes: MenuItem[],
-    path: number[] = []
-  ): number[] | undefined => {
-    if (!targetId) return undefined
+  const [selectedPath, setSelectedPath] = useState<number[]>([])
 
-    for (const node of nodes) {
-      const currentPath = [...path, node.id]
-      if (node.id === targetId) {
-        return currentPath
+  const findFullPath = useCallback(
+    (targetId: number | undefined, nodes: MenuItem[], path: number[] = []): number[] => {
+      if (!targetId) return []
+      for (const node of nodes) {
+        const currentPath = [...path, node.id]
+        if (node.id === targetId) return currentPath
+        if (node.children) {
+          const found = findFullPath(targetId, node.children, currentPath)
+          if (found.length) return found
+        }
       }
-      if (node.children) {
-        const found = findFullPath(targetId, node.children, currentPath)
-        if (found) return found
-      }
+      return []
+    },
+    []
+  )
+
+  useEffect(() => {
+    const path = findFullPath(currentId, treeData)
+    setSelectedPath(path)
+  }, [currentId, treeData, findFullPath])
+
+  const handleChange = (value: number[], selectedOptions: MenuItem[]) => {
+    if (selectedOptions.length > 0) {
+      const selectedId = selectedOptions[selectedOptions.length - 1].id
+      setSelectedPath(value)
+      onChange(selectedId)
     }
-    return undefined
   }
-
-  const currentPath = findFullPath(currentId, treeData)
 
   return (
     <Cascader<MenuItem>
       fieldNames={{ value: 'id', label: 'title', children: 'children' }}
       options={treeData}
-      onChange={(_, selectedNodes) => {
-        onChange(selectedNodes[selectedNodes.length - 1].id)
-      }}
-      value={currentPath}
+      onChange={handleChange}
+      value={selectedPath}
       placeholder="请选择父级菜单"
       changeOnSelect
       displayRender={(labels) => labels.join(' / ')}

@@ -3,9 +3,12 @@ import { Card, Input, Button, Table, Switch, Pagination, message, Modal, Space, 
 import type { ColumnsType } from 'antd/es/table'
 import type { User } from '@/types/user'
 import { usersList, userDelete, userEnabled } from '@/api/users'
+import type { RootState } from '@/store'
+import { useSelector } from 'react-redux'
 import UserForm, { type UserFormRef } from './components/UserForm'
 
 const UserPage: React.FC = () => {
+  const userInfo = useSelector((state: RootState) => state.userInfo)
   const [userList, setUserList] = useState<User[]>([])
   const [searchKeyword, setSearchKeyword] = useState('')
   const [page, setPage] = useState(1)
@@ -95,6 +98,7 @@ const UserPage: React.FC = () => {
       width: 100,
       render: (_, row) => (
         <Switch
+          disabled={row.username === 'admin' || row.id === userInfo.id}
           checked={row.enabled}
           onChange={(checked) => {
             row.enabled = checked
@@ -111,7 +115,13 @@ const UserPage: React.FC = () => {
           <Button size="small" type="primary" onClick={() => onEdit(row)}>
             编辑
           </Button>
-          <Button size="small" type="primary" danger onClick={() => onDelete(row)}>
+          <Button
+            size="small"
+            type="primary"
+            danger
+            disabled={row.username === 'admin' || row.id === userInfo.id}
+            onClick={() => onDelete(row)}
+          >
             删除
           </Button>
         </Space>

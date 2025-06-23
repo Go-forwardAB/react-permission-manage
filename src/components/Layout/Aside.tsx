@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '@/store'
 import { setActiveTab, addTab } from '@/store/tabSlice'
-import { filterVisibleMenus } from '@/utils/filterVisibleMenus'
+import { visibleMenus } from '@/utils/visibleMenus'
 import type { MenuItem } from '@/types/menu'
 import DynamicIcon from '@/components/DynamicIcon'
 
@@ -35,17 +35,19 @@ const Aside: React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const init_menus = useSelector((state: RootState) => state.menu.init_menus)
-  const menuList = filterVisibleMenus(init_menus)
   const activeTab = useSelector((state: RootState) => state.tabs.activeTab || '/')
-  const items = convertMenusToItems(menuList)
+  const filterMenu = useSelector((state: RootState) => state.menu.filterMenu)
+  const menuList = visibleMenus(filterMenu)
+  const items = convertMenusToItems(
+    menuList.filter((item) => item.children || item.title === '首页')
+  )
 
   useEffect(() => {
     if (activeTab) navigate(activeTab)
   }, [activeTab, navigate])
 
   const onSelect = ({ key }: { key: string }) => {
-    const matchedMenu = init_menus.find((menu) => menu.path === key)
+    const matchedMenu = filterMenu.find((menu) => menu.path === key)
     dispatch(setActiveTab(key))
     if (matchedMenu) {
       dispatch(addTab({ key, title: matchedMenu.title }))

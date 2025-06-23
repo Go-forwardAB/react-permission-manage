@@ -4,6 +4,9 @@ import { userSave } from '@/api/users'
 import { rolesList } from '@/api/roles'
 import type { User } from '@/types/user'
 import type { Role } from '@/types/role'
+import type { RootState } from '@/store'
+import { useSelector } from 'react-redux'
+import { generateRoutes } from '@/router/dynamic'
 
 const { Option } = Select
 
@@ -16,6 +19,7 @@ interface UserFormProps {
 }
 
 const UserForm = forwardRef<UserFormRef, UserFormProps>(({ onSuccess }, ref) => {
+  const userInfo = useSelector((state: RootState) => state.userInfo)
   const [form] = Form.useForm<User>()
   const [visible, setVisible] = useState(false)
   const [roleOptions, setRoleOptions] = useState<Role[]>([])
@@ -60,6 +64,9 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ onSuccess }, ref) => 
         message.success(res.message)
         setVisible(false)
         onSuccess()
+        if (values.id === userInfo.id) {
+          generateRoutes()
+        }
       } else {
         message.error(res.message || '保存失败')
       }

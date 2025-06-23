@@ -8,17 +8,15 @@ import type { RoleMenu } from '@/types/roleMenu'
 import type { Role } from '@/types/role'
 
 let cachedRoutes: RouteObject[] = []
+console.log(cachedRoutes)
 
 export async function generateRoutes(): Promise<RouteObject[]> {
-  if (cachedRoutes.length) return cachedRoutes
-
   const { userInfo } = store.getState()
   const roleR = await store.dispatch(getRoleList())
   const allRoles = roleR.payload as Role[]
   const userRoles = allRoles.filter((r) => userInfo.roleIds.includes(r.id!) && r.enabled)
 
   const roleMenusR = await store.dispatch(getRoleMenu())
-
   const allRoleMenus = roleMenusR.payload as RoleMenu[]
   const menuIdSet = new Set<number>()
   const buttonIdSet = new Set<number>()

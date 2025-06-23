@@ -3,6 +3,7 @@ import { useRoutes, Navigate, type RouteObject } from 'react-router-dom'
 import { getTokenA, getTokenR } from '@/utils/token'
 import { generateRoutes } from './dynamic'
 import Layout from '@/components/Layout/Index'
+
 import LoginPage from '@/views/Login'
 import NotFound from '@/views/NotFound'
 
