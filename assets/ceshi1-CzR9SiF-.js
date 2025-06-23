@@ -1,0 +1,1 @@
+import{ac as e,ag as t}from"./index-D16-hzSU.js";const o=()=>e.jsx("div",{className:"ceshi",children:e.jsx(t,{children:"测试1"})}),a=Object.freeze(Object.defineProperty({__proto__:null,default:o},Symbol.toStringTag,{value:"Module"}));export{a as _};
