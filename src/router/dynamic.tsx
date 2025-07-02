@@ -39,7 +39,7 @@ export async function generateRoutes(): Promise<RouteObject[]> {
   const filterTabs = tabs.tabs.filter((item) =>
     accessMenus.some((sItem) => item.path === sItem.path)
   )
-  console.log(filterTabs)
+
   store.dispatch(setTabs(filterTabs))
   store.dispatch(setFilterMenu(accessMenus))
   store.dispatch(setFilterButton(accessBtns))
