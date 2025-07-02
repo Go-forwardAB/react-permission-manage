@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom'
 import { Modal, message } from 'antd'
 import { logout as _logout } from '@/api/login'
 import { logoutRedirect } from '@/utils/logout'
-import store from '@/store'
+import store, { persistor } from '@/store'
+import { useDispatch } from 'react-redux'
 
 export function useLogout() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const logout = () => {
     Modal.confirm({
@@ -16,6 +18,8 @@ export function useLogout() {
         if (res.code === 200) {
           message.success(res.message)
           logoutRedirect(false)
+          dispatch({ type: 'RESET_STATE' })
+          persistor.purge()
           navigate('/login', { replace: true })
         }
       },

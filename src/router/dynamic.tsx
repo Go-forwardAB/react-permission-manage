@@ -3,6 +3,7 @@ import { Navigate, Outlet, type RouteObject } from 'react-router-dom'
 import store from '@/store'
 import { getRoleList, getRoleMenu } from '@/store/roleSlice'
 import { getMenuList, setFilterMenu, setFilterButton } from '@/store/menuSlice'
+import { setTabs } from '@/store/tabSlice'
 import type { MenuItem } from '@/types/menu'
 import type { RoleMenu } from '@/types/roleMenu'
 import type { Role } from '@/types/role'
@@ -11,7 +12,7 @@ let cachedRoutes: RouteObject[] = []
 console.log(cachedRoutes)
 
 export async function generateRoutes(): Promise<RouteObject[]> {
-  const { userInfo } = store.getState()
+  const { userInfo, tabs } = store.getState()
   const roleR = await store.dispatch(getRoleList())
   const allRoles = roleR.payload as Role[]
   const userRoles = allRoles.filter((r) => userInfo.roleIds.includes(r.id!) && r.enabled)
@@ -34,6 +35,12 @@ export async function generateRoutes(): Promise<RouteObject[]> {
   const accessBtns = allMenus
     .filter((m) => buttonIdSet.has(m.id) && m.type == 'button')
     .map((item) => item.id)
+
+  const filterTabs = tabs.tabs.filter((item) =>
+    accessMenus.some((sItem) => item.path === sItem.path)
+  )
+  console.log(filterTabs)
+  store.dispatch(setTabs(filterTabs))
   store.dispatch(setFilterMenu(accessMenus))
   store.dispatch(setFilterButton(accessBtns))
 

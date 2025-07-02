@@ -5,7 +5,8 @@ import { rolesList } from '@/api/roles'
 import type { User } from '@/types/user'
 import type { Role } from '@/types/role'
 import type { RootState } from '@/store'
-import { useSelector } from 'react-redux'
+import { setUserInfo } from '@/store/userInfoSlice'
+import { useSelector, useDispatch } from 'react-redux'
 import { generateRoutes } from '@/router/dynamic'
 
 const { Option } = Select
@@ -20,6 +21,7 @@ interface UserFormProps {
 
 const UserForm = forwardRef<UserFormRef, UserFormProps>(({ onSuccess }, ref) => {
   const userInfo = useSelector((state: RootState) => state.userInfo)
+  const dispatch = useDispatch()
   const [form] = Form.useForm<User>()
   const [visible, setVisible] = useState(false)
   const [roleOptions, setRoleOptions] = useState<Role[]>([])
@@ -60,6 +62,8 @@ const UserForm = forwardRef<UserFormRef, UserFormProps>(({ onSuccess }, ref) => 
       const values = await form.validateFields()
 
       const res = await userSave(values)
+      const roleIds = values.roleIds
+      dispatch(setUserInfo({ ...userInfo, roleIds }))
       if (res.code === 200) {
         message.success(res.message)
         setVisible(false)

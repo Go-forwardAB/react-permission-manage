@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 interface Tab {
-  name?: string
   title: string
   path: string
 }
@@ -40,6 +39,9 @@ const tabsSlice = createSlice({
         state.activeTab = state.tabs.length > 0 ? state.tabs[state.tabs.length - 1].path : ''
       }
     },
+    setTabs(state, action: PayloadAction<Tab[]>) {
+      state.tabs = action.payload
+    },
     resetTabs(state) {
       state.tabs = defaultTabs
       state.activeTab = '/dashboard'
@@ -50,5 +52,5 @@ const tabsSlice = createSlice({
   },
 })
 
-export const { addTab, removeTab, resetTabs, setActiveTab } = tabsSlice.actions
+export const { addTab, removeTab, setTabs, resetTabs, setActiveTab } = tabsSlice.actions
 export default tabsSlice.reducer
